@@ -2,11 +2,13 @@
 title: Creating a user
 ---
 
+import { Callout } from "nextra/components";
+
 # PROSA CRM API Documentation
 
 ## Overview
 
-This API provides endpoints for member registration and retrieval through PROSA's web form system. The API uses HTTP POST requests and returns JSON responses.
+This guide provides endpoints for member registration and retrieval through PROSA's web form system. The API uses HTTP POST requests and returns JSON responses.
 
 ## Endpoints
 
@@ -14,7 +16,9 @@ This API provides endpoints for member registration and retrieval through PROSA'
 
 **Endpoint:** `/api/Webformular/SubmitWebformular`  
 **Method:** POST  
-**Purpose:** Submit member registration data through a web form
+**Purpose:** Submit member registration data through a web form.
+
+Read more at [SubmitWebformular](/API/Webformular/SubmitWebformular)
 
 #### Request Structure
 
@@ -106,7 +110,10 @@ Returns member data if found, or an error if the member doesn't exist.
 
 ## Account Creation Verification Process
 
-> ⚠️ **Important:** You cannot determine if account creation was successful by only checking the `SubmitWebformular` response.
+<Callout type="warning">
+  **Important:** You cannot determine if account creation was successful by only
+  checking the `SubmitWebformular` response.
+</Callout>
 
 To verify successful account creation, you must:
 
@@ -119,5 +126,6 @@ To verify successful account creation, you must:
    - Use the same email address from the form submission
    - If this returns member data, the account was successfully created
    - If this returns an error, the account creation was not completed despite the form submission success
+   - Read more at [GetMedlem](/API/Medlem/GetMedlem)
 
 Only when **both** endpoints succeed can you confirm that the member account was fully created and is accessible in the system.
