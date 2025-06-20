@@ -42,15 +42,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Inject basePath + .nojekyll and other Pages tweaks for Next.js
-      - name: Configure GitHub Pages
+      # Manually configure for GitHub Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
 
       # Build & export the static site
       - name: Build with Next.js
         run: pnpm exec next build
+        env:
+          NODE_ENV: production
 
       # Upload the `out` directory produced by `next build`
       - name: Upload artifact
