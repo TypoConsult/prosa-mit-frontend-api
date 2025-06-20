@@ -5,10 +5,13 @@ const withNextra = nextra({
     defaultShowCopyCode: true,
 });
 
+const isProduction = process.env.NODE_ENV === 'production';
+const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+
 const nextConfig = {
     // Other Next.js config options
-    basePath: '/prosa-mit-frontend-api',
-    assetPrefix: '/prosa-mit-frontend-api',
+    basePath: isGitHubPages ? '/prosa-mit-frontend-api' : '',
+    assetPrefix: isGitHubPages ? '/prosa-mit-frontend-api' : '',
     output: 'export',
     images: {
         unoptimized: true,

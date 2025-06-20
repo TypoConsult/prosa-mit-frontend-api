@@ -18,7 +18,7 @@ const banner = (
 const navbar = (
   <Navbar
     logo={
-      <img src="./images/general/logo.svg" alt="Logo" width={100} height={20} />
+      <p style={{ fontSize: "20px", fontWeight: "bold" }}>PROSA CRM API Docs</p>
     }
     // ... Your additional navbar options
   />
@@ -38,7 +38,7 @@ export default async function RootLayout({ children }) {
       <Head
       // ... Your additional head options
       >
-        <link rel="shortcut icon" href="./images/general/icon.svg" />
+        <link rel="shortcut icon" href="images/general/icon.svg" />
         {/* Your additional tags should be passed as `children` of `<Head>` element */}
       </Head>
       <body>
@@ -46,7 +46,7 @@ export default async function RootLayout({ children }) {
           //   banner={banner}
           navbar={navbar}
           pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/phucbm/nextra-docs-starter/tree/main"
+          docsRepositoryBase="https://github.com/TypoConsult/prosa-mit-frontend-api/tree/main"
           footer={footer}
           // ... Your additional layout options
         >
