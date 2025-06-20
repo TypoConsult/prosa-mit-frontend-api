@@ -1,0 +1,55 @@
+---
+title: SubmitWebformular
+---
+
+import RequestBadge from "@/components/request-badge";
+
+# SubmitWebformular
+
+SubmitWebformular is used to submit the registration form.
+
+---
+
+<RequestBadge method="POST">api/Webformular/SubmitWebformular</RequestBadge>
+
+### Body Parameters
+
+| Name         | Description                                                                                           | Required | Type                                       |
+| ------------ | ----------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------ |
+| WebFormId    | The identifier of the WebForm. This is not required.                                                  | False    | String                                     |
+| WebFormType  | Unknown                                                                                               | False    | String                                     |
+| created      | The date the WebForm was created                                                                      | False    | Date (ISO)                                 |
+| LastActivity | The last date where something in this WebForm changed                                                 | True     | Date (ISO)                                 |
+| Step         | Determines how long the user is in the registration form. Needs to be >= 3 to succeed                 | True     | String (As number)                         |
+| Finalized    | Set wether the form is finalized or not. Setting this to true will make the validation much stricter. | True     | Boolean                                    |
+| Fields       | The fields in the WebForm that the user has entered.                                                  | True     | Collection of [Field](/Webformular/fields) |
+
+### Example
+
+> The minimal amount of data needed for a successful registration
+
+```json
+{
+  "LastActivity": "2025-06-20T07:36:46.020Z",
+  "step": "3",
+  "finalized": false,
+  Fields: [
+    {
+      Name: "email",
+      Data: [
+        Value: "test@example.com",
+        Text: "" // Always empty
+      ]
+    },
+    {
+      Name: "cpr",
+      Data: [
+        Value: "1234561234",
+        Text: ""
+      ]
+    }
+  ]
+}
+```
+
+For a list of all available fields, see [Field](/Webformular/fields#all-available-fields)

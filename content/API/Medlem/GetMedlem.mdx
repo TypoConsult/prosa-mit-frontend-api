@@ -1,0 +1,80 @@
+---
+title: GetMedlem
+---
+
+import RequestBadge from "@/components/request-badge";
+
+# GetMedlem
+
+GetMedlem is used to retrieve the information of a user.
+
+---
+
+<RequestBadge method="POST">api/Medlem/GetMedlem</RequestBadge>
+
+### Body Parameters
+
+| Name   | Description           | Required | Type   |
+| ------ | --------------------- | -------- | ------ |
+| apiKey | Api key               | True     | String |
+| email  | The email of the user | True     | String |
+
+#### Example
+
+```JSON
+{
+  "apiKey": "xxxxxx-xxxxxx-xxxxxx",
+  "email": "test@example.com"
+}
+```
+
+### Returns
+
+| Name    | Description                                  | Type                        |
+| ------- | -------------------------------------------- | --------------------------- |
+| status  | The status code (e.g. "success" or "error")  | String                      |
+| data    | Object of all the information about the user | Collection of [Data](#data) |
+| message | Status message                               | String                      |
+
+---
+
+# Data
+
+| Name                | Description                                     | Type    |
+| ------------------- | ----------------------------------------------- | ------- |
+| personId            | The unique identifier of the user               | String  |
+| fornavne            | The user's first name(s)                        | String  |
+| efternavn           | The user's last name                            | String  |
+| cprnr               | The user's CPR number                           | String  |
+| email               | The user's email address                        | String  |
+| fastnet             | The user's landline phone number                | Unknown |
+| tlfnr               | The user's mobile phone number                  | String  |
+| adresse1            | The user's primary address                      | String  |
+| adresse2            | The user's secondary address                    | String  |
+| by                  | The user's city                                 | String  |
+| land                | The user's country code                         | String  |
+| postnr              | The user's postal code                          | String  |
+| arbejdsgiverld      | The user's employer ID                          | String  |
+| stillingsbet        | The user's job title/position                   | String  |
+| arbejdsomradefd     | The user's work area/field                      | String  |
+| overenskomstid      | The user's collective agreement ID              | String  |
+| laereplads          | The user's apprenticeship information           | String  |
+| arbejdstid          | The user's working hours                        | String  |
+| klub                | The user's club affiliation                     | String  |
+| ansaettelsesStart   | The user's employment start date                | String  |
+| ansaettelsesSlut    | The user's employment end date                  | String  |
+| arbejdstimer        | The user's work hours                           | String  |
+| uddannelser         | Array of the user's education information       | Array   |
+| interesser          | Array of the user's interests                   | Array   |
+| nyhedsbreve         | Array of newsletters the user subscribes to     | Array   |
+| fordele             | Array of benefits the user has access to        | Array   |
+| medlem              | Whether the user is a member                    | Boolean |
+| studerende          | Whether the user is a student                   | Boolean |
+| pensionist          | Whether the user is a pensioner                 | Boolean |
+| LeadNytMedlem       | Whether the user is a new member lead           | Boolean |
+| afdeling            | The user's department/division                  | String  |
+| akasseMedlem        | Whether the user is an unemployment fund member | Boolean |
+| foreningMedlem      | Whether the user is an association member       | Boolean |
+| medlemsbladPaafrykt | Whether the user receives printed magazine      | Boolean |
+| medlemsnummer       | The user's membership number                    | String  |
+| apikey              | The API key associated with the user            | String  |

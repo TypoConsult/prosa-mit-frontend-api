@@ -1,0 +1,101 @@
+---
+title: Fields
+---
+
+# Webformular Fields
+
+---
+
+### Field Object
+
+| Name | Description                       | Required | Type                                         |
+| ---- | --------------------------------- | -------- | -------------------------------------------- |
+| Name | The key / identifier of the field | True     | String                                       |
+| Type | The type of field                 | false    | String                                       |
+| Data | The data within the field         | True     | Collection of [FieldData](#fielddata-object) |
+
+### FieldData Object
+
+| Name  | Description                          | Required | Type   |
+| ----- | ------------------------------------ | -------- | ------ |
+| Value | The value of the field itself        | True     | String |
+| Text  | Unknown (Required, but can be empty) | True     | String |
+
+#### Example
+
+```json
+{
+  "Name": "email",
+  "Data": [
+    {
+      "Value": "test@example.com",
+      "Text": ""
+    }
+  ]
+}
+```
+
+### All available fields
+
+| Field Name              | Type                             | Required | Description                                           |
+| ----------------------- | -------------------------------- | -------- | ----------------------------------------------------- |
+| `fornavne`              | String                           | No       | First name(s)                                         |
+| `efternavn`             | String                           | No       | Last name                                             |
+| `cpr`                   | String                           | **Yes**  | CPR number (Danish personal identification)           |
+| `email`                 | String                           | **Yes**  | Email address                                         |
+| `gentagEmail`           | String                           | No       | Email confirmation                                    |
+| `mobil`                 | String                           | No       | Mobile phone number                                   |
+| `adresseland`           | String (ISO 3166-1 numeric code) | No       | Country code reference                                |
+| `adresse`               | String                           | No       | Street address                                        |
+| `postnr`                | String                           | No       | Postal code                                           |
+| `by`                    | String                           | No       | City                                                  |
+| `ansættelsesforhold`    | String                           | No       | Employment relationship (reference to separate table) |
+| `stillingsbetegnelse`   | String                           | No       | Job title                                             |
+| `ansættelsesdato`       | String (Date)                    | No       | Employment start date                                 |
+| `arbejdsområde`         | String                           | No       | Work area (reference to separate table)               |
+| `arbejdstimer`          | String (number)                  | No       | Working hours                                         |
+| `studieSted`            | String                           | No       | Study location (reference to separate table)          |
+| `studieStart`           | String (Date)                    | No       | Study start date                                      |
+| `studieAfslutning`      | String (Date)                    | No       | Study end date                                        |
+| `studieRetning`         | String                           | No       | Study direction/field                                 |
+| `studieJob`             | Boolean                          | No       | Whether currently studying                            |
+| `ingenArbejdsgiver`     | Boolean                          | No       | No employer flag                                      |
+| `nyArbejdsgiverNavn`    | String                           | No       | New employer name                                     |
+| `nyArbejdsgiverAdresse` | String                           | No       | New employer address                                  |
+| `nyArbejdsgiverPostnr`  | String                           | No       | New employer postal code                              |
+| `nyArbejdsgiverBy`      | String                           | No       | New employer city                                     |
+| `arbejdsgiver`          | String                           | No       | Current employer                                      |
+| `acceptConditions`      | Boolean                          | No       | Terms acceptance                                      |
+| `Kommentar`             | String                           | No       | Comments                                              |
+
+Many fields, like `fastnet` and `adresse2` that are found in the response of [GetMedlem](/Medlem/GetMedlem) can't be set using this form. Other things, like the user's CPR number is set as `cpr` in this case, but respnds with `cprnr` in [GetMedlem](/Medlem/GetMedlem)
+
+# Example function for setting fields (Typescript)
+
+```ts
+const setValue = (key: string, value: string | number | boolean) => {
+  const output = {
+    Name: key,
+    Data: [
+      {
+        Value: value,
+        Text: ""
+      }
+    ]
+  };
+
+  return output;
+};
+```
+
+### Usage
+
+```ts
+const response = await client.post("/api/Webformular/SubmitWebformular", {
+  ...
+  Fields: [
+    setValue("email", "test@example.com"),
+    setValue("cpr", "9999999999"),
+  ]
+})
+```

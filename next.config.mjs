@@ -8,6 +8,7 @@ const withNextra = nextra({
 const nextConfig = {
     // Other Next.js config options
     basePath: '/prosa-mit-frontend-api',
+    assetPrefix: '/prosa-mit-frontend-api',
     output: 'export',
     images: {
         unoptimized: true,

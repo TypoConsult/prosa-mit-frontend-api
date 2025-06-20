@@ -1,0 +1,123 @@
+---
+title: Lol
+---
+
+# PROSA CRM API Documentation
+
+## Overview
+
+This API provides endpoints for member registration and retrieval through PROSA's web form system. The API uses HTTP POST requests and returns JSON responses.
+
+## Endpoints
+
+### 1. Submit Web Form
+
+**Endpoint:** `/api/Webformular/SubmitWebformular`  
+**Method:** POST  
+**Purpose:** Submit member registration data through a web form
+
+#### Request Structure
+
+```json
+{
+  "WebFormType": "string",           // Optional - Form type identifier
+  "LastActivity": "ISO 8601 date",   // Required - Timestamp of last activity
+  "step": "string",                  // Required - Step number as string, must be >= 3
+  "finalized": boolean,              // Required - Whether form is finalized*
+  "Fields": [...]                    // Required - Array of field objects
+}
+```
+
+#### About Finalized\*
+
+If the request body is set to `finalized: true`, the form will be sent to a third part (Modulus). Turning it on, will make the form much stricter about it's validation, so is not optimal for creating smaller registration forms.
+
+#### Fields Array Structure
+
+Each field in the `Fields` array follows this structure:
+
+```json
+{
+  "Name": "fieldName", // Ususally pascal case
+  "Data": [
+    {
+      "Value": "field_value", // String, Number, or Boolean
+      "Text": "" // Always empty string
+    }
+  ]
+}
+```
+
+#### Available Fields
+
+| Field Name              | Type                             | Required | Description                                           |
+| ----------------------- | -------------------------------- | -------- | ----------------------------------------------------- |
+| `fornavne`              | String                           | No       | First name(s)                                         |
+| `efternavn`             | String                           | No       | Last name                                             |
+| `email`                 | String                           | **Yes**  | Email address                                         |
+| `gentagEmail`           | String                           | No       | Email confirmation                                    |
+| `mobil`                 | String                           | No       | Mobile phone number                                   |
+| `cpr`                   | String                           | **Yes**  | CPR number (Danish personal identification)           |
+| `adresseland`           | String (ISO 3166-1 numeric code) | No       | Country code reference                                |
+| `adresse`               | String                           | No       | Street address                                        |
+| `postnr`                | String                           | No       | Postal code                                           |
+| `by`                    | String                           | No       | City                                                  |
+| `ansættelsesforhold`    | String                           | No       | Employment relationship (reference to separate table) |
+| `stillingsbetegnelse`   | String                           | No       | Job title                                             |
+| `ansættelsesdato`       | String (Date)                    | No       | Employment start date                                 |
+| `arbejdsområde`         | String                           | No       | Work area (reference to separate table)               |
+| `arbejdstimer`          | String (number)                  | No       | Working hours                                         |
+| `studieSted`            | String                           | No       | Study location (reference to separate table)          |
+| `studieStart`           | String (Date)                    | No       | Study start date                                      |
+| `studieAfslutning`      | String (Date)                    | No       | Study end date                                        |
+| `studieRetning`         | String                           | No       | Study direction/field                                 |
+| `studieJob`             | Boolean                          | No       | Whether currently studying                            |
+| `ingenArbejdsgiver`     | Boolean                          | No       | No employer flag                                      |
+| `nyArbejdsgiverNavn`    | String                           | No       | New employer name                                     |
+| `nyArbejdsgiverAdresse` | String                           | No       | New employer address                                  |
+| `nyArbejdsgiverPostnr`  | String                           | No       | New employer postal code                              |
+| `nyArbejdsgiverBy`      | String                           | No       | New employer city                                     |
+| `arbejdsgiver`          | String                           | No       | Current employer                                      |
+| `acceptConditions`      | Boolean                          | No       | Terms acceptance                                      |
+| `Kommentar`             | String                           | No       | Comments                                              |
+
+#### Response
+
+The endpoint returns either a success or error response. A success response does not guarantee that the member account was fully created.
+
+### 2. Get Member
+
+**Endpoint:** `/api/Medlem/GetMedlem`  
+**Method:** POST  
+**Purpose:** Retrieve member information by email
+
+#### Request Structure
+
+```json
+{
+  "apiKey": "string", // Required - API authentication key
+  "email": "string" // Required - Member email address
+}
+```
+
+#### Response
+
+Returns member data if found, or an error if the member doesn't exist.
+
+## Account Creation Verification Process
+
+> ⚠️ **Important:** You cannot determine if account creation was successful by only checking the `SubmitWebformular` response.
+
+To verify successful account creation, you must:
+
+1. **Submit the form** using `/api/Webformular/SubmitWebformular`
+
+   - If this returns an error, the account creation failed
+   - If this returns success, proceed to step 2
+
+2. **Verify member creation** using `/api/Medlem/GetMedlem`
+   - Use the same email address from the form submission
+   - If this returns member data, the account was successfully created
+   - If this returns an error, the account creation was not completed despite the form submission success
+
+Only when **both** endpoints succeed can you confirm that the member account was fully created and is accessible in the system.
