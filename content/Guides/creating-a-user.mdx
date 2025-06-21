@@ -4,7 +4,13 @@ title: Creating a user
 
 import { Callout } from "nextra/components";
 
-# PROSA CRM API Documentation
+# Creating a new user
+
+<Callout type="warning">
+  **Important:** You cannot determine if account creation was successful by only
+  checking the `SubmitWebformular` response. Go to [Account Creation
+  Verification Process](#account-creation-verification-process) to learn more
+</Callout>
 
 ## Introduction
 
@@ -109,11 +115,6 @@ The endpoint returns either a success or error response. A success response does
 Returns member data if found, or an error if the member doesn't exist.
 
 ## Account Creation Verification Process
-
-<Callout type="warning">
-  **Important:** You cannot determine if account creation was successful by only
-  checking the `SubmitWebformular` response.
-</Callout>
 
 To verify successful account creation, you must:
 

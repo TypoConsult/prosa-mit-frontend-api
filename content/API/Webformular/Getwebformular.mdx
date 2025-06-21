@@ -1,0 +1,49 @@
+---
+title: GetWebformular
+---
+
+import RequestBadge from "@/components/request-badge";
+import { Callout } from "nextra/components";
+
+# GetWebformular
+
+GetWebformular is used to get the information of a previously submitted web form.
+
+<Callout type="info">
+  This is only usable if you set a WebFormId in
+  [SubmitWebformular](/API/Webformular/SubmitWebformular)
+</Callout>
+
+---
+
+<RequestBadge method="POST">api/Webformular/GetWebformular</RequestBadge>
+
+## Body Parameters
+
+| Name          | Description                                                                                                  | Required | Type   |
+| ------------- | ------------------------------------------------------------------------------------------------------------ | -------- | ------ |
+| WebformularId | The unique identifier of the webform. This is set in [SubmitWebformular](/API/Webformular/SubmitWebformular) | True     | String |
+| apikey        | API key                                                                                                      | True     | String |
+
+### Example
+
+> The minimal amount of data needed for a successful registration
+
+```json
+{
+  "LastActivity": "Prosa Indmeldelse",
+  "apikey": "xxxxxx-xxxxxxx-xxxxxx"
+}
+```
+
+## Reponse
+
+| Name         | Description                                          | Type                                           |
+| ------------ | ---------------------------------------------------- | ---------------------------------------------- |
+| WebFormId    | The ID of the requested Webform                      | String                                         |
+| WebFormType  | Unknown                                              | String                                         |
+| created      | Date of creation                                     | Date (ISO)                                     |
+| LastActivity | The last time the form was changed                   | Date (ISO)                                     |
+| Step         | See how long the user is in teh registration process | String (as number)                             |
+| Finalized    | Show the finalized status                            | Boolean                                        |
+| Fields       | The fields of the webform                            | Collection of [Field](/API/Webformular/fields) |
